@@ -6,6 +6,7 @@
     
     <meta name="theme-color" content="#111827"/>
     <link rel="manifest" href="manifest.json">
+    
     <title>Aplikasi Kasir Bluetooth</title>
     <script>
         tailwind = { darkMode: 'class' }
@@ -29,8 +30,6 @@
         }
         .toast { animation: fadeInOut 4s ease-in-out forwards; }
         .modal.hidden { display: none; }
-        /* MODIFIKASI PWA: Sembunyikan tombol install secara default */
-        #install-button { display: none; }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-black flex items-center justify-center min-h-screen transition-colors duration-300">
@@ -42,11 +41,12 @@
         
         <div class="absolute top-4 right-4">
             <button id="settings-button" class="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l-.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
         </div>
 
-        <div class="border-t dark:border-gray-700 pt-6 space-y-3"> <button id="install-button" class="w-full flex items-center justify-center gap-2 bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-purple-700 dark:hover:bg-purple-500 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+        <div class="border-t dark:border-gray-700 pt-6 space-y-3">
+            <button id="install-button" disabled class="w-full flex items-center justify-center gap-2 bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-purple-700 dark:hover:bg-purple-500 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 <span>Install Aplikasi</span>
             </button>
@@ -167,7 +167,6 @@
         const toastNotification = document.getElementById('toast-notification');
         const toastMessage = document.getElementById('toast-message');
         
-        // Elemen DOM untuk Modal Pengaturan
         const settingsButton = document.getElementById('settings-button');
         const settingsModal = document.getElementById('settings-modal');
         const closeModalButton = document.getElementById('close-modal-button');
@@ -176,14 +175,11 @@
         const address1Input = document.getElementById('address1-input');
         const footerMsgInput = document.getElementById('footer-msg-input');
         
-        // BARU: Referensi Elemen DOM untuk info pelanggan
         const customerNameInput = document.getElementById('customer-name-input');
         const motorcycleTypeInput = document.getElementById('motorcycle-type-input');
 
-        // Referensi Elemen DOM untuk Tema
         const themeSelector = document.getElementById('theme-selector');
 
-        // MODIFIKASI PWA: Referensi Tombol Install
         const installButton = document.getElementById('install-button');
 
         // --- Variabel Global ---
@@ -191,7 +187,7 @@
         let printCharacteristic;
         let cartItems = [];
         const textEncoder = new TextEncoder("cp437");
-        let deferredPrompt; // MODIFIKASI PWA: Variabel untuk event install
+        let deferredPrompt; 
         
         let settings = {
             storeName: 'Toko Anda',
@@ -256,7 +252,6 @@
             settings.footerMsg = footerMsgInput.value.trim();
             localStorage.setItem('kasirAppBluetoothSettings', JSON.stringify(settings));
             
-            // Simpan juga pengaturan tema
             const selectedTheme = themeSelector.value;
             localStorage.setItem(THEME_KEY, selectedTheme);
             applyTheme(selectedTheme);
@@ -401,7 +396,6 @@
                 if (settings.address1) receipt += settings.address1 + '\n';
                 receipt += new Date().toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }) + '\n';
                 
-                // Tambahkan info pelanggan jika ada
                 const customerName = customerNameInput.value.trim();
                 const motorType = motorcycleTypeInput.value.trim();
                 if (customerName || motorType) {
@@ -438,7 +432,7 @@
                 await sendDataToPrinter(dataToSend);
                 
                 showToast('Struk berhasil dicetak!');
-                clearCart(); // Otomatis bersihkan keranjang setelah cetak
+                clearCart();
 
             } catch (error) {
                 showToast(`Gagal mencetak: ${error.message}`);
@@ -467,60 +461,69 @@
             }
         });
 
-        // --- Inisialisasi Aplikasi ---
+        // --- ## PERUBAHAN DI SINI: Logika PWA dan Inisialisasi Aplikasi ---
+
+        // 1. Logika PWA untuk Service Worker & Tombol Install
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service worker terdaftar.', reg))
+                    .catch(err => console.error('Service worker gagal didaftarkan.', err));
+            });
+        }
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Cegah prompt mini-infobar default dari Chrome
+            e.preventDefault();
+            // Simpan event untuk digunakan nanti
+            deferredPrompt = e;
+            // Aktifkan tombol install karena aplikasi sekarang bisa diinstal
+            if (installButton) {
+                installButton.disabled = false;
+                console.log('Aplikasi siap diinstal.');
+            }
+        });
+
+        if (installButton) {
+            installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) {
+                    return; // Jika event belum tertangkap, jangan lakukan apa-apa
+                }
+                // Tampilkan prompt instalasi
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Respon pengguna: ${outcome}`);
+                // Kosongkan prompt karena hanya bisa digunakan sekali
+                deferredPrompt = null;
+                // Nonaktifkan kembali tombol setelah prompt ditampilkan
+                installButton.disabled = true;
+            });
+        }
+        
+        window.addEventListener('appinstalled', () => {
+          // Kosongkan prompt dan hapus tombol setelah aplikasi berhasil diinstal
+          deferredPrompt = null;
+          if (installButton) {
+              installButton.remove();
+          }
+          console.log('PWA berhasil diinstal!');
+          showToast('Aplikasi berhasil diinstal!');
+        });
+
+        // 2. Inisialisasi Aplikasi saat DOM siap
         document.addEventListener('DOMContentLoaded', () => {
             loadAndApplyTheme();
             loadSettings();
             updateCart();
-            // MODIFIKASI PWA: Sembunyikan tombol jika berjalan sebagai aplikasi
+            // Cek apakah aplikasi berjalan dalam mode PWA (standalone)
             if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-                installButton.remove();
+                console.log('Berjalan dalam mode PWA, tombol install dihapus.');
+                if (installButton) {
+                    installButton.remove(); // Hapus tombol jika sudah dalam mode PWA
+                }
+            } else {
+                console.log('Berjalan di browser, tombol install ditampilkan (nonaktif).');
             }
-        });
-
-        // --- MODIFIKASI PWA: Logika Service Worker & Tombol Install ---
-        // 1. Daftarkan Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('Service Worker berhasil didaftarkan: ', registration);
-                    })
-                    .catch(error => {
-                        console.log('Pendaftaran Service Worker gagal: ', error);
-                    });
-            });
-        }
-        
-        // 2. Tangkap event 'beforeinstallprompt'
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Cegah browser menampilkan prompt default
-            e.preventDefault();
-            // Simpan event agar bisa dipanggil nanti
-            deferredPrompt = e;
-            // Tampilkan tombol install kustom kita
-            installButton.style.display = 'flex';
-        });
-
-        // 3. Tambahkan event listener untuk tombol install
-        installButton.addEventListener('click', async () => {
-            // Sembunyikan tombol kita karena prompt akan ditampilkan
-            installButton.style.display = 'none';
-            // Tampilkan prompt instalasi
-            deferredPrompt.prompt();
-            // Tunggu user merespon prompt
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`Respon pengguna pada prompt install: ${outcome}`);
-            // Kita hanya bisa menggunakan prompt sekali, jadi reset variabelnya
-            deferredPrompt = null;
-        });
-        
-        // 4. (Opsional) Lacak jika aplikasi berhasil diinstal
-        window.addEventListener('appinstalled', () => {
-            // Kosongkan prompt
-            deferredPrompt = null;
-            console.log('PWA berhasil diinstal');
-            showToast('Aplikasi berhasil diinstal!');
         });
     </script>
 </body>
